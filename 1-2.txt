@@ -1,0 +1,107 @@
+
+Write the MATLAB codes for the following questions:
+Question 1: Find the eigenvalues and eigenvectors of the following matrix:
+MATLAB Code:
+clc
+clear
+A=input(‘Enter the Matrix:’);
+%Characteristic Equation
+cf=poly(A);
+disp(‘Characteristic Equations’);
+disp(cf);
+%Eigenvalues;
+EV=eig(A);
+disp(‘Eigenvalues’);
+disp(EV);
+%Eigenvectors;
+[P D]=eig(A);
+disp(‘Eigenvectors’);
+disp(P);
+
+INPUT:
+Enter the Matrix:[2 3 7;4 1 3;1 2 6]
+OUTPUT:
+Characteristic Equations
+ 1.0000 -9.0000 -5.0000 14.0000
+
+Eigenvalues
+ 9.3741
+ -1.4233
+ 1.0493
+Eigenvectors
+ -0.6916 -0.4025 -0.3178
+ -0.5126 0.8961 -0.8551
+ -0.5088 -0.1872 0.4096
+
+Question 2: Verify Cayley-Hamilton theorem for the matrix. And hence, find 𝐴
+-1
+MATLAB Code:
+clc
+clear
+A=input('Enter the Matrix:');
+%Verification of Cayley-Hamilton theorem
+cf=poly(A);
+n=length(cf);
+CHT=cf(1)*A^(n-1);
+for i=2:n
+CHT=CHT+cf(i)*A^(n-i);
+end
+disp('R.H.S of C-H Theorem:');
+disp(round(CHT));
+%To find the inverse
+INV=cf(1)*A^(n-2);
+for i=2:n-1
+INV=INV+cf(i)*A^(n-i-1);
+end
+INV=INV/(-cf(n));
+disp('Inverse of A:')
+disp(INV)
+
+INPUT:
+Enter the Matrix:[4 6 0;2 -1 0;0 0 -1]
+OUTPUT:
+R.H.S of C-H Theorem:
+ 0 0 0
+ 0 0 0
+ 0 0 0
+Inverse of A:
+ 0.0625 0.3750 0
+ 0.1250 -0.2500 0
+ 0 0 -1.0000
+
+
+Question 3: Diagonalize the following matrix using orthogonal transformation
+MATLAB CODE:
+clc
+clear
+A=input('Enter the symetric matrix for diagonalization :');
+[P D]=eig(A);
+disp('Given Matrix (A) :')
+disp(A)
+disp('Modal Matrix (P):')
+disp(P)
+NP=normc(P);
+disp('Normalized Modal Matrix (N):')
+disp(NP)
+disp('Diagonal Matrix (D=N^T*A*N) :')
+DM=round(NP'*A*NP,2);
+disp(DM)
+INPUT:
+Enter the symetric matrix for diagonalization :[1 5 0;5 3 2;0 2 1]
+OUTPUT:
+Given Matrix (A) :
+ 1 5 0
+ 5 3 2
+ 0 2 1
+Modal Matrix (P):
+ 0.7140 -0.3714 0.5936
+ -0.6393 -0.0000 0.7690
+ 0.2856 0.9285 0.2374
+Normalized Modal Matrix (N):
+ 0.7140 -0.3714 0.5936
+ -0.6393 -0.0000 0.7690
+ 0.2856 0.9285 0.2374
+Diagonal Matrix (D=N^T*A*N) :
+ -3.4800 0 0
+ 0 1.0000 0
+ 0 0 7.4800

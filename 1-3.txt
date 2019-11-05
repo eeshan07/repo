@@ -1,0 +1,86 @@
+q1]solve diff eqn using method of variation of parameter
+y''+4y=tanx
+
+
+MATLAB code:
+clear all
+close all
+clc
+syms c1 c2 x m
+F=input('Enter the coefficients [a,b,c]: ');
+f=input('Enter the RHS function f(x): ');
+a=F(1);b=F(2);c=F(3);
+AE=a*m^2+b*m+c; % Auxilliary Equation
+m=solve(AE);
+m1=m(1); m2=m(2);
+D=b^2-4*a*c;
+if(D>0) % Roots are real and different
+y1=exp(m1*x);y2=exp(m2*x);
+elseif (D==0)% Roots are real and equal
+ y1=exp(m1*x);y2=x*exp(m1*x);
+else % Roots are complex
+alfa=real(m1);beta=imag(m1);
+y1=exp(alfa*x)*cos(beta*x);
+y2=exp(alfa*x)*sin(beta*x);
+end
+yc=c1*y1+c2*y2; % Complimentary Solution
+%%% Particular Integral by Method of variation of parameters.
+fx=f/a;
+W=y1*diff(y2,x)-y2*diff(y1,x); %%% Wronskian%%%
+u=int(-y2*fx/W,x);
+v=int(y1*fx/W,x);
+yp=y1*u+y2*v; %%%Particular Integral%%%
+y_gen=yc+yp; %%%General Solution%%%
+check=input('If the problem has initial conditions then enter 1 else enter
+2: ');
+if(check==1)
+cn=input('Enter the initial conditions [x0, y(x0), Dy(x0)]:');
+dy_gen=diff(y_gen);
+eq1=(subs(y_gen,x,cn(1))-cn(2));
+eq2=(subs(dy_gen,x,cn(1))-cn(3));
+[c1 c2]=solve(eq1,eq2);
+y=simplify(subs(y_gen));
+disp('The complete solution is');
+disp(y);
+ezplot(y, [cn(1),cn(1)+2]);
+else
+y=simplify(y_gen);
+disp('The General Solution is ');
+disp(y);
+end
+Input:
+Enter the coefficients [a,b,c]: [1 0 1]
+Enter the RHS function f(x): tan(2*x)
+If the problem has initial conditions then enter 1 else enter 2: 2
+
+
+q2]solve diff eqn using laplace transform
+
+MATLAB Code
+clear all
+clc
+syms t s y(x) Y
+dy(t)=diff(y(x));
+d2y(t)=diff(y(x),2);
+F = input('Input the coefficients [a,b,c]: ');
+a=F(1);b=F(2);c=F(3);
+nh = input('Enter the non-homogenous part f(x): ');
+eqn=a*d2y(x)+b*dy(x)+c*y(x)-nh;
+LTY=laplace(eqn,t,s);
+IC = input('Enter the initial conditions in the form [y0,Dy(0)]: ');
+y0=IC(1);dy0=IC(2);
+LTY=subs(LTY,{'laplace(y(x), t, s)','y(0)','D(y)(0)'},{Y,y0,dy0});
+eq=collect(LTY,Y);
+Y=simplify(solve(eq,Y));
+yt=simplify(ilaplace(Y,s,x));
+disp('The solution of the differential equation y(x)=')
+disp(yx);
+ezplot(yx,[y0,y0+2]);
+Input
+Input the coefficients [a,b,c]: [1 2 4]
+Enter the non-homogenous part f(x): 2*(x^2)+3*exp(-x)
+Enter the initial conditions in the form [y0,Dy(0)]: [0,1]
+Output
+The solution of the differential equation y(x)=
+exp(-x) - x/2 + x^2/2 - exp(-x)*(cos(3^(1/2)*x) -
+(3^(1/2)*sin(3^(1/2)*x))/2)

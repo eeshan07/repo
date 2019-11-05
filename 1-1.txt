@@ -1,0 +1,64 @@
+
+Assignment: 1
+Course Code: MAT2002
+Slot: L11+L12
+Ques. 1 Find the Fourier series for the function defined by:
+𝒇(𝒙) = 𝒙 2 − 𝟐, − 𝟐 < 𝒙 < 𝟐.
+Also find the first 3 harmonics of the same.
+Ans 1.
+MATLAB Code:
+clear all
+close all
+clc syms
+x
+f =input('Enter the function of x: ');
+I=input('Enter the interval of [a,b]: ');
+m=input('Enter the number of Harmonics required: ');
+a=I(1);b=I(2); L=(b-a)/2; a0=(1/L)*int(f,a,b);
+Fx=a0/2; for n=1:m figure;
+an(n)=(1/L)*int(f*cos(n*pi*x/L),a,b);
+bn(n)=(1/L)*int(f*sin(n*pi*x/L),a,b);
+Fx=Fx+an(n)*cos(n*pi*x/L)+bn(n)*sin(n*pi*x/L);
+Fx=vpa(Fx,4); ezplot(Fx,[a,b]); hold on
+ezplot(f,[a,b]);
+title(['Fourier Series with ',num2str( n ),'harmonics']);
+legend('Fourier Series', 'Function Plot'); hold off end
+disp(strcat('Fourier series with', num2str(n),'harmonics is:',char(Fx)))
+
+Input:
+Enter the function of x: x^(2)-2
+Enter the interval of [a,b]: [-2,2]
+Enter the number of Harmonics required: 3
+Output:
+Fourier series with3harmonics is:0.4053*cos(3.142*x) - 1.621*cos(1.571*x) -
+0.1801*cos(4.712*x) - 0.6667 
+
+ 
+Ans. 2
+MATLAB Code:
+clear all
+clc syms
+t
+x=input('Enter the equally spaced values of x:');
+y=input('Enter the values of y=f(x):');
+m=input('Enter the number of harmonics required:');
+n=length(x);a=x(1);b=x(n); h=x(2)-x(1); L=(ba+h)/2; theta=pi*x/L; a0=(2/n)*sum(y);
+Fx=a0/2; x1=linspace(a,b,100);
+for i=1:m figure
+an=(2/n)*sum(y.*cos(i*theta)); bn=(2/n)*sum(y.*sin(i*theta));
+Fx=Fx+an*cos(i*pi*t/L)+bn*sin(i*pi*t/L) ;
+Fx=vpa(Fx,4);
+Fx1=subs(Fx,t,x1);
+plot(x1,Fx1); hold
+on plot(x,y);
+title(['Fourier Series with ',num2str( i ),'harmonics']) legend('Fourier
+Series', 'Function Plot') hold off; end disp(strcat('Fourier series
+with', num2str(i),'harmonicsis:',char(Fx)));
+
+Input:
+Enter the equally spaced values of x:0:2*pi
+Enter the values of y=f(x):[1.0 1.4 1.9 1.7 1.5 1.2 1.0]
+Enter the number of harmonics required:2
+Output:
+Fourier series with2harmonicsis:0.3091*sin(0.8976*t) - 0.09482*cos(1.795*t) -
+0.3076*cos(0.8976*t) - 0.02003*sin(1.795*t) 
